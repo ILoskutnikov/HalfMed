@@ -1,1 +1,1 @@
-worker: java -cp target/classes:/target/dependency/* target/classes/HalfMedBot.class
+worker: java -cp target/classes:/target/dependency/* target/classes/pack/Main.class
