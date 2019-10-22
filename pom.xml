@@ -25,7 +25,7 @@
                     <appName>HalfMed</appName>
                     <processTypes>
                         <worker>
-                            java $JAVA_OPTS -cp target/classes:target/dependency/* HalfMed.mainClass
+                            java $JAVA_OPTS -cp target/classes:target/dependency/* HalfMedBot.java
                         </worker>
                     </processTypes>
                 </configuration>
