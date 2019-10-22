@@ -1,1 +1,1 @@
-worker: java -cp target/classes:/target/dependency/* HalfMed.pack.Main
+worker: sh target/bin/half-med
