@@ -99,7 +99,16 @@ public class Main extends TelegramLongPollingBot {
                 }
                 if (flag) {
                     if (update.getMessage().getText().contains("Dose ")) {
-                        countOfDose = Double.parseDouble(update.getMessage().getText().split(" ")[1]);
+                        try {
+                            countOfDose = Double.parseDouble(update.getMessage().getText().split(" ")[1]);
+                        } catch (Exception e) {
+                            try {
+                                e.printStackTrace();
+                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дорогой мой человек, я тебя не понял, перечитай, что написано выше и следуй, блин, инструкциям!\n Это тебе надо или мне?"));
+                            } catch (TelegramApiException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
                         try {
                             execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(calulateAlkoTime()));
                         } catch (TelegramApiException e) {
