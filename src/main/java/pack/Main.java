@@ -22,7 +22,7 @@ public class Main extends TelegramLongPollingBot {
 
     private static HashMap<Integer, HalfLivesOfDrugs> drugsList = new HashMap<>();
     private static String idOfDrug = "";
-    private static int countOfDose;
+    private static Double countOfDose;
 
     public static void main(String[] args) throws FileNotFoundException {
         Scanner reader = new Scanner(new File("halfLive.csv"));
@@ -99,7 +99,7 @@ public class Main extends TelegramLongPollingBot {
                 }
                 if (flag) {
                     if (update.getMessage().getText().contains("Dose ")) {
-                        countOfDose = Integer.parseInt(update.getMessage().getText().split(" ")[1]);
+                        countOfDose = Double.parseDouble(update.getMessage().getText().split(" ")[1]);
                         try {
                             execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(calulateAlkoTime()));
                         } catch (TelegramApiException e) {
