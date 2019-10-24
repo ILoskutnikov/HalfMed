@@ -1,6 +1,5 @@
 package pack;
 
-import javenue.csv.Csv;
 import lombok.extern.log4j.Log4j2;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -11,12 +10,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
@@ -29,15 +25,11 @@ public class Main extends TelegramLongPollingBot {
     private static int countOfDose;
 
     public static void main(String[] args) throws FileNotFoundException {
-        Csv.Reader reader = new Csv.Reader(new FileReader("halfLive.csv")).delimiter(' ');
+        Scanner reader = new Scanner(new File("halfLive.csv"));
         int i = 0;
-        while (true) {
+        while (reader.hasNextLine()) {
             List<String> stringForParce;
-            try {
-                stringForParce = Arrays.asList(reader.readLine().get(0).split("\t"));
-            } catch (NullPointerException e) {
-                break;
-            }
+            stringForParce = Arrays.asList(reader.nextLine().split("\t"));
             drugsList.put(
                     i++,
                     new HalfLivesOfDrugs(
