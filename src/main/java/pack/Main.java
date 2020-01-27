@@ -145,7 +145,7 @@ public class Main extends TelegramLongPollingBot {
 
     private String calulateAlkoTime() {
         Double time = drugsList.get(Integer.parseInt(idOfDrug)).getMaxConcentration();
-        Double conc = Double.valueOf((drugsList.get(Integer.parseInt(idOfDrug)).getOneDose() * countOfDose));
+        double conc = (drugsList.get(Integer.parseInt(idOfDrug)).getOneDose() * countOfDose);
         while (conc > 2) {
             conc = conc / 2;
             time += drugsList.get(Integer.parseInt(idOfDrug)).getHalfLife();
