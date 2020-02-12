@@ -100,32 +100,26 @@ public class Main extends TelegramLongPollingBot {
                 }
                 if (flag) {
                     if (update.getMessage().getText().contains("Dose ")) {
-                        try {
-                            String text = update.getMessage().getText().split(" ")[1];
-                            if (text.length() > 10 || !StringUtils.isNumeric(text)) {
-                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дима, еб твою мать! Тебе вообще никогда пить нельзя, и к ботам пускать нельзя, иди нахуй!"));
-
-                            }else {
-                                countOfDose = Double.parseDouble(update.getMessage().getText().split(" ")[1]);
-                            }
-                        } catch (Exception e) {
+                        String text = update.getMessage().getText().split(" ")[1];
+                        if (text.length() > 10 || !StringUtils.isNumeric(text)) {
                             try {
+                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дима, еб твою мать! Тебе вообще никогда пить нельзя, и к ботам пускать нельзя, иди нахуй!"));
+                            } catch (TelegramApiException e) {
                                 e.printStackTrace();
-                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дорогой мой человек, я тебя не понял, перечитай, что написано выше и следуй, блин, инструкциям!\n Это тебе надо или мне?"));
-                            } catch (TelegramApiException e1) {
-                                e1.printStackTrace();
                             }
-                        }
-                        try {
-                            execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(calulateAlkoTime()));
-                        } catch (TelegramApiException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        try {
-                            execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дорогой мой человек, я тебя не понял, перечитай, что написано выше и следуй, блин, инструкциям!\n Это тебе надо или мне?"));
-                        } catch (TelegramApiException e) {
-                            e.printStackTrace();
+                        } else {
+                            try {
+                                countOfDose = Double.parseDouble(update.getMessage().getText().split(" ")[1]);
+                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(calulateAlkoTime()));
+                            } catch (Exception e) {
+                                try {
+                                    e.printStackTrace();
+                                    execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дорогой мой человек, я тебя не понял, перечитай, что написано выше и следуй, блин, инструкциям!\n Это тебе надо или мне?"));
+                                } catch (TelegramApiException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+
                         }
                     }
                 }
