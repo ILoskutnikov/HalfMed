@@ -1,6 +1,7 @@
 package pack;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -100,7 +101,13 @@ public class Main extends TelegramLongPollingBot {
                 if (flag) {
                     if (update.getMessage().getText().contains("Dose ")) {
                         try {
-                            countOfDose = Double.parseDouble(update.getMessage().getText().split(" ")[1]);
+                            String text = update.getMessage().getText().split(" ")[1];
+                            if (text.length() > 10 || !StringUtils.isNumeric(text)) {
+                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дима, еб твою мать! Тебе вообще никогда пить нельзя, и к ботам пускать нельзя, иди нахуй!"));
+
+                            }else {
+                                countOfDose = Double.parseDouble(update.getMessage().getText().split(" ")[1]);
+                            }
                         } catch (Exception e) {
                             try {
                                 e.printStackTrace();
