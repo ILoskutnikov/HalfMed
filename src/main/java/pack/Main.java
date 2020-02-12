@@ -143,7 +143,7 @@ public class Main extends TelegramLongPollingBot {
                 Thread.sleep(1000);
                 execute(new SendMessage().setText("Значит так, одна доза " + drug + " содержит " + drugsList.get(Integer.parseInt(idOfDrug)).getOneDose() + " мг. действующего вещества. \nТеперь не поленись и посчитай, сколько ты выпил в дозах этих своих колес. А после этого напиши мне Dose*пробел**получившееся число*. \nИзи же, ну.").setChatId(update.getCallbackQuery().getMessage().getChatId()));
                 Thread.sleep(1000);
-                execute(new SendMessage().setText("Пример: Dose 400").setChatId(update.getCallbackQuery().getMessage().getChatId()));
+                execute(new SendMessage().setText("Пример: Dose 4").setChatId(update.getCallbackQuery().getMessage().getChatId()));
             } catch (TelegramApiException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -152,7 +152,7 @@ public class Main extends TelegramLongPollingBot {
 
     private String calulateAlkoTime() {
         Double time = drugsList.get(Integer.parseInt(idOfDrug)).getMaxConcentration();
-        Double conc = Double.valueOf((drugsList.get(Integer.parseInt(idOfDrug)).getOneDose() * countOfDose));
+        double conc = (drugsList.get(Integer.parseInt(idOfDrug)).getOneDose() * countOfDose);
         while (conc > 2) {
             conc = conc / 2;
             time += drugsList.get(Integer.parseInt(idOfDrug)).getHalfLife();
