@@ -103,7 +103,11 @@ public class Main extends TelegramLongPollingBot {
                         String text = update.getMessage().getText().split(" ")[1];
                         if (text.length() > 10 || !StringUtils.isNumeric(text)) {
                             try {
-                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дима, еб твою мать! Тебе вообще никогда пить нельзя, и к ботам пускать нельзя, иди нахуй!"));
+                                String userName = update.getMessage().getAuthorSignature();
+                                if (userName.equals("none")) {
+                                    userName = "Аноним без алиаса";
+                                }
+                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(userName + ", еб твою мать! Тебе вообще никогда пить нельзя, и к ботам пускать нельзя, иди нахуй!"));
                             } catch (TelegramApiException e) {
                                 e.printStackTrace();
                             }
