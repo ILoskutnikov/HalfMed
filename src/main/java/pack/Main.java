@@ -107,7 +107,7 @@ public class Main extends TelegramLongPollingBot {
                         String dose = message.split(" ")[1];
                         if (checkDose(dose)){
                             try {
-                                countOfDose = Double.parseDouble(dose);
+                                countOfDose = Double.parseDouble(dose.replaceAll(",", "."));
                                 execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(calulateAlkoTime()));
                             } catch (Exception e) {
                                 try {
