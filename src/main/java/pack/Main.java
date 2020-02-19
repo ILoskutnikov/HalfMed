@@ -182,7 +182,7 @@ public class Main extends TelegramLongPollingBot {
 
     private boolean checkDose(String dose) {
 
-        return dose.matches("(([-+])?[0-9]+(((\\.[0-9]+)?)|(,[0-9]+)))?");
+        return dose.matches("(([-+])?[0-9]+(((\\.[0-9]+)?)|(,[0-9]+)))?")&& dose.length()<10;
 
 
     }
