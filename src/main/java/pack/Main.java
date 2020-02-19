@@ -90,7 +90,10 @@ public class Main extends TelegramLongPollingBot {
                     break;
                     case "/start": {
                         try {
-                            execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Если вы хотите рассчитать плановое время пьянки, но не знаете, через сколько можно пить после колес, что вы приняли, то пишите боту /showMeDrugs и посмотрите насколько глубока жопа трезвеничества в которую вы попали."));
+                            execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(
+                                    "Если вы хотите рассчитать плановое время пьянки, но не знаете, " +
+                                            "через сколько можно пить после колес, что вы приняли, то пишите боту " +
+                                            "/showMeDrugs и посмотрите насколько глубока жопа трезвеничества в которую вы попали."));
                             flag = false;
                         } catch (TelegramApiException e) {
                             e.printStackTrace();
@@ -98,35 +101,64 @@ public class Main extends TelegramLongPollingBot {
                     }
                     break;
                 }
+                String message = update.getMessage().getText();
                 if (flag) {
-                    if (update.getMessage().getText().contains("Dose ")) {
-                        String text = update.getMessage().getText().split(" ")[1];
-                        if (text.length() > 10 || !StringUtils.isNumeric(text)) {
+                    if (message.contains("Dose ")) {
+                        String dose = message.split(" ")[1];
+                        if (checkDose(dose)){
                             try {
-                                String userName = update.getMessage().getAuthorSignature();
-                                if (userName.equals("none")) {
-                                    userName = "Аноним без алиаса";
-                                }
-                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(userName + ", еб твою мать! Тебе вообще никогда пить нельзя, и к ботам пускать нельзя, иди нахуй!"));
-                            } catch (TelegramApiException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            try {
-                                countOfDose = Double.parseDouble(update.getMessage().getText().split(" ")[1]);
+                                countOfDose = Double.parseDouble(dose);
                                 execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(calulateAlkoTime()));
                             } catch (Exception e) {
                                 try {
                                     e.printStackTrace();
-                                    execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дорогой мой человек, я тебя не понял, перечитай, что написано выше и следуй, блин, инструкциям!\n Это тебе надо или мне?"));
+                                    execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дорогой мой человек, " +
+                                            "я тебя не понял, перечитай, что написано выше и следуй, блин, инструкциям!\n Это тебе надо или мне?"));
                                 } catch (TelegramApiException e1) {
                                     e1.printStackTrace();
                                 }
                             }
-
+                        } else {
+                            try {
+                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дорогой мой человек, " +
+                                        "я тебя не понял, перечитай, что написано выше и следуй, блин, инструкциям!\n Это тебе надо или мне?"));
+                            } catch (TelegramApiException e1) {
+                                e1.printStackTrace();
+                            }
                         }
                     }
                 }
+//                if (flag) {
+//                    if (update.getMessage().getText().contains("Dose ")) {
+//                        String text = update.getMessage().getText().split(" ")[1];
+//                        if (text.length() > 10 || !StringUtils.isNumeric(text)) {
+//                            try {
+//                                String userName = update.getMessage().getAuthorSignature();
+//                                if (userName.equals("none")) {
+//                                    userName = "Аноним без алиаса";
+//                                }
+//                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(userName + ", еб твою мать! " +
+//                                        "Тебе вообще никогда пить нельзя, и к ботам пускать нельзя, иди нахуй!"));
+//                            } catch (TelegramApiException e) {
+//                                e.printStackTrace();
+//                            }
+//                        } else {
+//                            try {
+//                                countOfDose = Double.parseDouble(update.getMessage().getText().split(" ")[1]);
+//                                execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText(calulateAlkoTime()));
+//                            } catch (Exception e) {
+//                                try {
+//                                    e.printStackTrace();
+//                                    execute(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Дорогой мой человек, " +
+//                                            "я тебя не понял, перечитай, что написано выше и следуй, блин, инструкциям!\n Это тебе надо или мне?"));
+//                                } catch (TelegramApiException e1) {
+//                                    e1.printStackTrace();
+//                                }
+//                            }
+//
+//                        }
+//                    }
+//                }
             }
         } else if (update.hasCallbackQuery()) {
             String[] callback = update.getCallbackQuery().getData().split("\t");
@@ -146,6 +178,13 @@ public class Main extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
+    }
+
+    private boolean checkDose(String dose) {
+
+        return dose.matches("(([-+])?[0-9]+(((\\.[0-9]+)?)|(,[0-9]+)))?");
+
+
     }
 
     private String calulateAlkoTime() {
